@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> 
+
+    <link rel="stylesheet" href="{% static "storeapp/css/owl.carousel.min.css" %}">
+    <link rel="stylesheet" href="{% static "storeapp/css/all.min.css" %}">
+    <link rel="stylesheet" href="{% static "storeapp/css/style.css" %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha384-ojyOhiPz1RTK3wgf2Bpw8r+JcX4Cp6T9nOwF+Zw5u5d5fMq0q5g4STG5Ppfpv5vBk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+
+
+    <title>DOA STORE || {% block title %}{% endblock title %} </title>
+
+    <style>
+      /* Custom CSS for button hover effect */
+      .btn-outline-success:hover {
+          background-color: white;
+          color: black;
+      }
+
+      .fixed-icons {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: #ffffff;
+        text-align: center;
+        z-index: 1000;
+    }
+    
+    .icon-link {
+        color: #333;
+        font-size: 24px;
+        margin: 0 20px; /* Adjust spacing between icons */
+        text-decoration: none;
+        display: inline-block;
+    }
+    
+    .icon-label {
+        font-size: 12px; /* Adjust the font size of the labels */
+        margin-top: 5px; /* Adjust spacing between icons and labels */
+    }
+
+    .policy-container {
+      background-color: #f0f0f0;
+      padding: 20px;
+      border-radius: 5px;
+      text-align: center;
+  }
+  
+  .policy-item {
+      margin-bottom: 20px;
+  }
+  
+  .policy-item i {
+      font-size: 24px;
+      margin-bottom: 10px;
+  }
+  
+  .policy-item p {
+      font-size: 14px;
+  }
+  
+  body {
+    margin-bottom: 70px; 
+}
+  
+  </style>
+
+
+
+</head>
+<body>
+    {% comment %} begining of navbar {% endcomment %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">
+            {% comment %} <img src='{% static "storeapp/images/neel.png" %}' width='70' height='50'/> {% endcomment %}
+            DoaStore</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              {% if request.user.is_authenticated %}
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/">Home</a>
+              </li>
+
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Products
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="{% url "category" 'Bags' %}">Bags</a></li>
+                  <li><a class="dropdown-item" href="{% url "category" 'Beads' %}">Beads</a></li>
+                  <li><a class="dropdown-item" href="{% url "category" 'Clothes' %}">Clothes</a></li>
+                  <li><a class="dropdown-item" href="{% url "category" 'Shoes' %}">Shoes</a></li>
+                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link text-white" href="{% url "about" %}">About us</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-white" href="{% url "contact" %}">Contact us</a>
+              </li>
+            </ul>  
+            
+            <form class="d-flex" role="search">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+
+          </div>
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item dropdown mx-2">
+                <a class='nav-link dropdown-toggle text-white' href='#' id='profileDropdown' role='button' data-bs-toggle='dropdown' aria-expanded='false'>{{request.user.username}}</a>
+                <ul class='dropdown-menu' aria-labelledby='profileDropdown'>
+                    <li><a class='dropdown-item' href='{% url "profile" %}'>Profile</a></li>
+                    <li><a class='dropdown-item' href='#'>Orders</a></li>
+                    <li><a class='dropdown-item' href='{% url "passwordchange" %}'>Change Password</a></li>
+                    <li><a class='dropdown-item' href='{% url "logout" %}'>Logout</a></li>
+                </ul>
+            </li>
+            <li class="nav-item mx-2">
+               <a href='/' class='nav-link text-white'>Cart 4</a>
+            </li>
+
+            <li class="nav-item mx-2">
+                <a href='/' class='nav-link text-white'>Wishlist 4</a>
+             </li>
+             {% else %}
+             <li class="nav-item mx-2">
+                <a href='{% url "login" %}' class='nav-link text-white'>Login</a>
+             </li>
+ 
+             <li class="nav-item mx-2">
+                 <a href='{% url "customerregistration" %}' class='nav-link text-white'>Register</a>
+              </li>
+              {% endif %}
+        </ul>
+        
+        </div>
+      </nav>
+      {% comment %} end of navbar {% endcomment %}
+
+      {% block banner_slider %}{% endblock banner_slider %}
+      {% block information %}{% endblock information %}
+
+      {% block main-content %}{% endblock main-content %}
+
+      
+      {% comment %} policy {% endcomment %}
+      <div class="policy-container d-md-flex justify-content-center align-items-center flex-md-row flex-column">
+        <div class="policy-item text-center mb-3 mb-md-0">
+          <a href='#'> 
+            <i class="fas fa-file-contract"></i>
+            <p>Terms &amp; Conditions</p>
+          </a>
+        </div>
+        <div class="policy-item text-center mb-3 mb-md-0">
+          <a href='#'> 
+            <i class="fas fa-retweet"></i>
+            <p>Return Policy</p>
+          </a>
+        </div>
+        <div class="policy-item text-center mb-3 mb-md-0">
+          <a href='#'> 
+            <i class="fas fa-headset"></i>
+            <p>Support Policy</p>
+          </a>
+        </div>
+        <div class="policy-item text-center mb-4 mb-md-0">
+           <a href='#'> 
+            <i class="fas fa-shield-alt"></i>
+            
+            
+              <p>Privacy Policy</p>
+            </a>
+        </div>
+      </div>
+    
+    
+    
+    
+
+      {% comment %} end of policy {% endcomment %}
+    
+
+      <footer class="footer bg-dark text-white py-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center mb-3">
+                    <div class="social-media">
+                        <a href="#" class="text-white mx-2"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-white mx-2"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white mx-2"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#" class="text-white mx-2"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="text-center">
+                        <p class="mb-0">Contact me:</p>
+                        <p>Email: example@example.com</p>
+                        <p>Phone: +1234567890</p>
+                        <p>Address: 123 Main St, City</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <p class="text-center mb-0">Copyright &copy; 2023 || Doa Store || Developed by Goodness</p>
+                </div>
+            </div>
+        </div>
+    </footer>    
+    
+    <div class="fixed-icons d-md-none">
+      <a href="/" class="icon-link">
+          <i class="fas fa-home"></i>
+          <p class="icon-label">Home</p>
+      </a>
+      <a href="#" class="icon-link">
+          <i class="fas fa-th"></i>
+          <p class="icon-label">Categories</p>
+      </a>
+      {% if request.user.is_authenticated %}
+      <a href="#" class="icon-link">
+          <i class="fas fa-shopping-cart"></i>
+          <p class="icon-label">Cart</p>
+      </a>
+      <a href="#" class="icon-link">
+          <i class="fas fa-heart"></i>
+          <p class="icon-label">Wishlist</p>
+      </a>
+      <a href="{% url "profile" %}" class="icon-link ">
+          <i class="fas fa-user"></i>
+          <p class="icon-label">Account</p>
+      </a>
+      {% endif %}
+    </div>
+
+    {% comment %} foot nav-bar for largescreen {% endcomment %}
+
+    <div class="fixed-icons d-none d-md-block">
+      <a href="/" class="icon-link">
+          <i class="fas fa-home"></i>
+          <p class="icon-label">Home</p>
+      </a>
+      <a href="#" class="icon-link">
+          <i class="fas fa-th"></i>
+          <p class="icon-label">Categories</p>
+      </a>
+      {% if request.user.is_authenticated %}
+      <a href="#" class="icon-link">
+          <i class="fas fa-shopping-cart"></i>
+          <p class="icon-label">Cart</p>
+      </a>
+      
+      <a href="#" class="icon-link">
+          <i class="fas fa-heart"></i>
+          <p class="icon-label">Wishlist</p>
+      </a>
+      
+        <a href="{% url "profile" %}" class="icon-link">
+            <i class="fas fa-user"></i>
+            <p class="icon-label">Account</p>
+        </a>
+      {% endif %}
+      <a href="{% url "contact" %}" class="icon-link">
+        <i class="fas fa-phone"></i>
+        <p class="icon-label">Contact Us</p>
+    </a>
+    <a href="{% url "about" %}" class="icon-link">
+        <i class="fas fa-info-circle"></i>
+        <p class="icon-label">About Us</p>
+    </a>
+    <a href="#" class="icon-link" id="productsLink">
+        <i class="fas fa-cube"></i>
+        <p class="icon-label">Products</p>
+    </a>
+  </div>
+
+  {% comment %} end of foot navbar for large screen {% endcomment %}
+  
+  {% comment %} pop up for product on footbar {% endcomment %}
+  
+  <div class="modal fade" id="productsModal" tabindex="-1" role="dialog" aria-labelledby="productsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productsModalLabel">Products</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <center><button id="bagsButton" class="btn btn-primary btn-block">Bags</button>
+                <button id="shoesButton" class="btn btn-primary btn-block">Shoes</button>
+                <button id="beadsButton" class="btn btn-primary btn-block">Beads</button>
+                <button id="clothesButton" class="btn btn-primary btn-block">Clothes</button> </center>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% comment %} enfd= of popup for product {% endcomment %}
+  
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+      const productsModal = new bootstrap.Modal(document.getElementById('productsModal'));
+      const bagsButton = document.getElementById('bagsButton');
+      const shoesButton = document.getElementById('shoesButton');
+      const beadsButton = document.getElementById('beadsButton');
+      const clothesButton = document.getElementById('clothesButton');
+
+      bagsButton.addEventListener('click', function () {
+          window.location.href = '{% url "category" 'Bags' %}'; // Redirect to the Bags page
+      });
+
+      shoesButton.addEventListener('click', function () {
+          window.location.href = '{% url "category" 'Shoes' %}'; // Redirect to the Shoes page
+      });
+
+      beadsButton.addEventListener('click', function () {
+          window.location.href = '{% url "category" 'Beads' %}'; // Redirect to the Beads page
+      });
+
+      clothesButton.addEventListener('click', function () {
+          window.location.href = '{% url "category" 'Clothes' %}'; // Redirect to the Clothes page
+      });
+
+      // Show the modal when the "Products" link is clicked
+      const productsLink = document.getElementById('productsLink');
+      productsLink.addEventListener('click', function (e) {
+          e.preventDefault();
+          productsModal.show();
+      });
+  });
+</script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+
+    <script scr="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script src="{% static "storeapp/js/owl.carousel.min.js" %}"></script>
+    <script src="{% static "storeapp/js/all.min.js" %}"></script>
+    <script src="{% static "storeapp/js/myscript.js" %}"></script>
+</body>
+</html> 
